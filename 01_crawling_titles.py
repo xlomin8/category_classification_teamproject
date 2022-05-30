@@ -14,11 +14,14 @@ from selenium import webdriver  # 웹 브라우저 자동화
 import time  # 시간 지연
 import math
 import datetime
+
 df_titles = pd.DataFrame()
-category = ['m_cos', 'w_e_color', 'perfume']
+category = ['bag', 'accessory', 'Jewelry', 'child',
+            'w_clothes', 'm_clothes', 'w_shoes',
+            'm_shoes', 'clock']
+
 ### Step 1. 크롤링
-keyword = "☰ 통합 Q & A ☰"
-crawling_no = 40000
+crawling_no = 15000
 
 # 크롬 웹브라우저 실행
 driver = webdriver.Chrome("./chromedriver.exe")
@@ -28,22 +31,21 @@ driver.get("https://cafe.naver.com/joonggonara")
 time.sleep(2)
 
 # 게시판 클릭
-for i in range(0, 3):
+for i in range(2):
     driver.get("https://cafe.naver.com/joonggonara")
     time.sleep(2)
-    driver.find_element_by_xpath('//*[@id="menuLink37{}"]'.format(i)).click()
-    # // *[ @ id = "menuLink370"]
-    # // *[ @ id = "menuLink371"]
-    # // *[ @ id = "menuLink372"]
-# <a href="/ArticleList.nhn?search.clubid=10050146&amp;search.menuid=332&amp;search.boardtype=L" target="cafe_main" onclick="goMenu('332');clickcr(this, 'mnu.sell','','',event);" class="gm-tcol-c" id="menuLink332">
-# 						여성 기초화장품
-# 					</a>
+    driver.find_element_by_xpath('// *[ @ id = "menuLink101{}"]'.format(i)).click()
+
+    # // *[ @ id = "menuLink1010] 남성신발
+    # // *[ @ id = "menuLink1011] 시곌
+
+
 # 게시판 프레임 접근
     driver.switch_to.frame("cafe_main")
 
 # 게시글 50개씩
-    driver.find_element_by_xpath('//*[@id="listSizeSelectDiv"]').click()
-    driver.find_element_by_xpath('//*[@id="listSizeSelectDiv"]/ul/li[7]/a').click()
+    driver.find_element_by_xpath('//*[@id="listSizeSelectDiv"]').click()    #15씩 보기
+    driver.find_element_by_xpath('//*[@id="listSizeSelectDiv"]/ul/li[7]/a').click() #50개씩 보기
 
 # crawling_list = []
     no_app = []
@@ -91,7 +93,7 @@ for i in range(0, 3):
     df = df.drop(columns=['번호'])
     df = df.reset_index(drop=True)
     # df1 = df.sample(frac=0.05)
-    df.to_csv('./naver_cosmetic_{}.csv'.format(category[i]), index=False)
+    df.to_csv('./crawled_data/joonggo_luxury_{}.csv'.format(category[i]), index=False)
     # df1.to_csv('./naver_cosmetic_test.csv'.format(category[i]), index=False)
 driver.close()
 #
