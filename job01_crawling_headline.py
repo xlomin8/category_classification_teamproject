@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import datetime
 
-category = ['Politics','Economic','Social','Culture','World','IT']
+category = ['cosmetic']
 # url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=100 #정치
 # url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101 #경제
 # url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=102 #사회
@@ -26,7 +26,6 @@ headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 df_titles = pd.DataFrame()
 for i in range(6):
     # 카테고리 별로 파싱
-    url='https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=10{}'.format(i)
     # 주소로 웹페이지 요소 긁어오기
     resp = requests.get(url, headers=headers)
     soup = BeautifulSoup(resp.text, 'html.parser')
@@ -42,5 +41,5 @@ for i in range(6):
     df_titles = pd.concat([df_titles, df_section_titles], axis='rows', ignore_index=True)
 
 #파싱이 끝난 데이터 -> csv 파일로 저장
-df_titles.to_csv('./crawling_data/naver_headline_news_{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
+df_titles.to_csv('./naver_headline_cosmetic_{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
 # df_titles.to_csv('./crawling_data/naver_headline_news{}.csv'.format(datetime.date.today()), index=False)
