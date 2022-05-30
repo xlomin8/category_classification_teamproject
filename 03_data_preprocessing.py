@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 import pickle
 
-#concat파일에서 한글, 영어만 남기고 제거하기
+#concat파일에서 한글, 영어만 남기고 제거
 df1 = pd.read_csv('./crawled_data/joonggo_luxury_items_concat_20220530.csv')
 df1["제목"] = df1["제목"].str.replace(pat=r'[^가-힣a-zA-Z ]', repl=r'', regex=True)
 print(df1)
