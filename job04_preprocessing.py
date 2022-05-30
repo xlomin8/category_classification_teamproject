@@ -8,16 +8,21 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 import pickle
-
+df1 = pd.read_csv('./crawled_data/joonggo_luxury_items_concat_20220530.csv')
+df1["제목"] = df1["제목"].str.replace(pat=r'[^ 가-힣a-zA-Z]', repl=r'', regex=True, )
+print(df1)
+print(df1.info())
+print(type(df1))
+df1.to_csv("./luxury_items_concat_clear.csv", index=False)
 
 pd.set_option('display.unicode.east_asian_width', True)
-df = pd.read_csv('crawling_data/pro_naver_news_titles_20220526(job3).csv')
+df = pd.read_csv('./luxury_items_concat_clear.csv')
 # print(df.head())
 # df.info()
 
 #라벨링
-X = df['titles']    #입력
-Y = df['category']  #타겟 6개
+X = df['제목']    #입력
+Y = df['분류']  #타겟 6개
 
 encoder = LabelEncoder()
 labeled_Y = encoder.fit_transform(Y)
@@ -91,5 +96,5 @@ print(X_test.shape, Y_test.shape)
 
 #저장
 xy = X_train, X_test, Y_train, Y_test
-np.save('./crawling_data/news_data_max_{}_wordsize_{}'.format(max, wordsize), xy)
+np.save('./joonggo_max_{}_wordsize_{}'.format(max, wordsize), xy)
 
