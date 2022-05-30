@@ -19,7 +19,7 @@ print(df.head())
 print(df.tail())
 print(df['category'].value_counts())
 df.info()
-df.to_csv('./crawling_data/naver_news_titles_concat{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
+df.to_csv('./crawling_data/luxury_concat.csv', index=False)
 # df.to_csv('./crawling_data/naver_news_titles_{}.csv'.format(datetime.date.today()), index=False)
 
 
