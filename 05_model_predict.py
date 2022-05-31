@@ -32,7 +32,7 @@ label = encoder.classes_
 onehot_Y = to_categorical(labeled_Y)
 # print(onehot_Y)
 
-#X 전처리
+#X(새로운 데이터) 전처리
 okt = Okt() #openkoreantokenizer: 피팅 후 딕셔너리 형태
 okt_morph_X = okt.morphs(X[7], stem=True)  #morphs: 형태소 단위로 잘라주는 함수 / stem=True: 어근으로 변환해줌
 # print(okt_morph_X)  #형태소 리스트
@@ -75,7 +75,7 @@ X_pad = pad_sequences(tokened_X, 32)
 # print((X_pad[:5]))
 
 #모델 불러오기
-model = load_model('./models/joonggo_category_classification_model_0.8580850958824158_okt.h5')
+model = load_model('./models/joonggo_category_classification_model_0.8526752591133118_okt.h5')
 preds = model.predict(X_pad)
 
 #예측 max값의 column 리스트 만들기
@@ -105,11 +105,11 @@ for i in range(len(df)):
         df.loc[i, 'OX'] = 'X'
 # print(df.head(30))
 
-#정답률 확인
+#적중률 확인
 print(df['OX'].value_counts())  #정답수
 print(df['OX'].value_counts()/len(df))  #정답률
 
-print()
+# print()
 #예측 실패 출력
 # for i in range(len(df)):
 #     if df['분류'][i] not in df['predict'][i]:
