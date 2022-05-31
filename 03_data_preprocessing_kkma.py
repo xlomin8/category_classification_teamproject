@@ -46,8 +46,6 @@ print(onehot_Y)
 
 #X 전처리
 kkma = Kkma() #openkoreantokenizer: 피팅 후 딕셔너리 형태
-# okt_morph_X = okt.morphs(X[7], stem=True)  #morphs: 형태소 단위로 잘라주는 함수 / stem=True: 어근으로 변환해줌
-# print(okt_morph_X)  #형태소 리스트
 
 for i in range(len(X)):
     X[i] = kkma.morphs(X[i])
