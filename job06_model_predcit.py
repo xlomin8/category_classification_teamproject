@@ -12,13 +12,13 @@ from tensorflow.keras.models import load_model
 
 pd.set_option('display.unicode.east_asian_width', True)
 pd.set_option('display.max_columns', 20)    #20column까지는 모두 출력
-df = pd.read_csv('./crawling_data/naver_headline_news_20220527.csv')
+df = pd.read_csv('crawled_data/joonggo_test_data.csv')
 # print(df.head())
 # df.info()
 
 #라벨링
-X = df['titles']    #입력
-Y = df['category']  #타겟 6개
+X = df['제목']    #입력
+Y = df['분류']  #타겟 9개
 
 #저장해놓은 pickled encoder 불러오기
 with open('./models/encoder.pickle', 'rb') as f:
@@ -42,7 +42,7 @@ for i in range(len(X)):
 # print(X[:10])
 
 #불용어 dataframe 만들기
-stopwords = pd.read_csv('crawling_data/stopwords.csv', index_col=0)   #0번 column이 인덱스다!
+stopwords = pd.read_csv('./crawled_data/stopwords.csv', index_col=0)   #0번 column이 인덱스다!
 # print(stopwords.head())
 
 #불용어 제거하고 남은 형태소 리스트 만들기
@@ -59,7 +59,7 @@ for i in range(len(X)):
     X[i] = ' '.join(words)
 
 #저장해놓은 token 불러오기
-with open('./models/news_token.pickle', 'rb') as f:
+with open('./models/joonggo_token.pickle', 'rb') as f:
     token = pickle.load(f)
 
 tokened_X = token.texts_to_sequences(X)
@@ -67,15 +67,15 @@ print(tokened_X[:5])
 
 #tokened_X 속 max값을 가진 요소 찾기
 for i in range(len(tokened_X)):
-    if len(tokened_X[i]) > 17:
-        tokened_X[i] = tokened_X[i][:17]
+    if len(tokened_X[i]) > 32:
+        tokened_X[i] = tokened_X[i][:32]
 
 #padding
-X_pad = pad_sequences(tokened_X, 17)
+X_pad = pad_sequences(tokened_X, 32)
 print((X_pad[:5]))
 
 #모델 불러오기
-model = load_model('./models/news_category_classification_model_0.7087541818618774.h5')
+model = load_model('./models/joonggo_category_classification_model_0.8617904186248779.h5')
 preds = model.predict(X_pad)
 
 #예측 max값의 column 리스트 만들기
@@ -93,7 +93,7 @@ print(df.head(30))
 #예측 적중 여부 확인
 df['OX'] = 0
 for i in range(len(df)):
-    if df.loc[i, 'category'] in df.loc[i, 'predict']:
+    if df.loc[i, '분류'] in df.loc[i, 'predict']:
         df.loc[i, 'OX'] = 'O'
     else:
         df.loc[i, 'OX'] = 'X'
@@ -106,7 +106,7 @@ print(df['OX'].value_counts()/len(df))  #정답률
 
 #예측 실패 출력
 for i in range(len(df)):
-    if df['category'][i] not in df['predict'][i]:
+    if df['분류'][i] not in df['predict'][i]:
         print(df.iloc[i])
 
 

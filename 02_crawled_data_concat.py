@@ -3,6 +3,7 @@ import glob
 import datetime
 
 #경로 불러오기
+
 data_path = glob.glob('./crawled_data/*')
 print(data_path)
 
@@ -15,8 +16,9 @@ for path in data_path[0:]:
 df.dropna(inplace=True)
 df.reset_index(inplace=True, drop=True) #index있는 거 합칠때 drop=True가 필수
 
-print(df.head())
-print(df.tail())
-print(df['분류'].value_counts())
-df.info()
+# print(df['분류'].value_counts())
+# df.info()
+
+# csv파일 저장
+
 df.to_csv('./crawled_data/joonggo_luxury_items_concat_{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
