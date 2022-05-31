@@ -3,7 +3,8 @@ import glob
 import datetime
 
 #경로 불러오기
-data_path = glob.glob('./crawled_data/luxury*')
+
+data_path = glob.glob('./crawled_data/*')
 print(data_path)
 
 #csv파일 합치기
@@ -19,4 +20,5 @@ df.reset_index(inplace=True, drop=True) #index있는 거 합칠때 drop=True가 
 # df.info()
 
 # csv파일 저장
+
 df.to_csv('./crawled_data/joonggo_luxury_items_concat_{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
