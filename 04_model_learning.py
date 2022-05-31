@@ -31,7 +31,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 fit_hist = model.fit(X_train, Y_train, batch_size=128, epochs=5, validation_data=(X_test, Y_test))
 
 #모델 저장
-# model.save('./models/joonggo_category_classification_model_{}_okt.h5'.format(fit_hist.history['val_accuracy'][-1]))
+model.save('./models/joonggo_category_classification_model_{}_okt.h5'.format(fit_hist.history['val_accuracy'][-1]))
 
 #plot 그리기
 plt.plot(fit_hist.history['loss'], 'b-', label='train loss')
