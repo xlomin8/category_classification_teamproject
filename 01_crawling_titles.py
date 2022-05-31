@@ -61,8 +61,10 @@ for i in range(2):
             no_split = [ni.split()[0] for ni in no]
             # 글 제목 수집
             title = [i.text for i in driver.find_elements_by_css_selector('.article')]
+
             no_app.append(no_split)
             title_app.append(title)
+
             # 10페이지 마다 프린트 & 다음 페이지로 클릭
             if str(page)[-1] == '0':
                 print(int(page), 'page 크롤링 완료')
@@ -83,3 +85,4 @@ for i in range(2):
     df.to_csv('./crawled_data/joonggo_luxury_{}.csv'.format(category[i]), index=False)
 
 driver.close()
+

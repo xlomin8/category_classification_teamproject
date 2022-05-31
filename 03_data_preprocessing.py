@@ -9,22 +9,25 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 import pickle
 
-#concat파일에서 한글, 영어만 남기고 제거
 df1 = pd.read_csv('./crawled_data/joonggo_luxury_items_concat_20220530.csv')
-df1["제목"] = df1["제목"].str.replace(pat=r'[^가-힣a-zA-Z ]', repl=r'', regex=True)
+df1["제목"] = df1["제목"].str.replace(pat=r'[^가-힣a-zA-Z ]', repl=r'', regex=True, )
 print(df1)
 print(df1.info())
 print(type(df1))
-df1.to_csv("./joonggo_concat_clear.csv", index=False)
+df1.to_csv("./crawled_data/joonggo_concat_clear.csv", index=False)
 
 pd.set_option('display.unicode.east_asian_width', True)
-df = pd.read_csv('./joonggo_concat_clear.csv')
-# print(df.head())
-# df.info()
+df = pd.read_csv("./crawled_data/joonggo_concat_clear.csv")
+df.dropna(inplace=True)
+df.reset_index(inplace=True, drop=True)
+print(df.head())
+df.info()
 
 #라벨링
 X = df['제목']  #입력
 Y = df['분류']  #타겟 9개
+print(X.isna().sum())
+
 
 encoder = LabelEncoder()
 labeled_Y = encoder.fit_transform(Y)
@@ -77,7 +80,7 @@ wordsize = len(token.word_index) + 1    #딕셔너리 속 요소의 개수 + 1(0
 # print(token.word_index) #문장에 등장하는 순서대로 유니크한 값을 라벨링한 딕셔너리
 
 #tokenizer 저장
-with open('./models/news_token.pickle', 'wb') as f:
+with open('./models/joonggo_token.pickle', 'wb') as f:
     pickle.dump(token, f)
 
 #tokened_X 속 max값을 가진 요소 찾기
@@ -99,4 +102,3 @@ print(X_test.shape, Y_test.shape)
 #저장
 xy = X_train, X_test, Y_train, Y_test
 np.save('./crawled_data/joonggo_data_max_{}_wordsize_{}'.format(max, wordsize), xy)
-
