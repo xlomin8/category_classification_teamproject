@@ -31,9 +31,19 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 fit_hist = model.fit(X_train, Y_train, batch_size=128, epochs=5, validation_data=(X_test, Y_test))
 
 #모델 저장
-model.save('./models/joonggo_category_classification_model_{}_okt.h5'.format(fit_hist.history['val_accuracy'][-1]))
+# model.save('./models/joonggo_category_classification_model_{}_okt.h5'.format(fit_hist.history['val_accuracy'][-1]))
 
-plt.plot(fit_hist.history['accuracy'], label='accuracy')
-plt.plot(fit_hist.history['val_accuracy'], label='val_accuracy')
+#plot 그리기
+plt.plot(fit_hist.history['loss'], 'b-', label='train loss')
+plt.plot(fit_hist.history['val_loss'], 'r--', label='train val_loss')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
+
+plt.plot(fit_hist.history['accuracy'], 'b-', label='train accuracy')
+plt.plot(fit_hist.history['val_accuracy'], 'r--',  label='val_accuracy')
+plt.xlabel('epoch')
+plt.ylabel('accuracy')
 plt.legend()
 plt.show()
