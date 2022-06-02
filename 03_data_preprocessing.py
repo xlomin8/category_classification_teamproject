@@ -80,7 +80,7 @@ wordsize = len(token.word_index) + 1    #딕셔너리 속 요소의 개수 + 1(0
 # print(token.word_index) #문장에 등장하는 순서대로 유니크한 값을 라벨링한 딕셔너리
 
 #tokenizer 저장
-with open('./models/joonggo_token.pickle', 'wb') as f:
+with open('models/joonggo_token_okt.pickle', 'wb') as f:
     pickle.dump(token, f)
 
 #tokened_X 속 max값을 가진 요소 찾기
