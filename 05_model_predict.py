@@ -59,7 +59,7 @@ for i in range(len(X)):
     X[i] = ' '.join(words)
 
 #저장해놓은 tokenizer 불러오기
-with open('./models/joonggo_token.pickle', 'rb') as f:
+with open('models/joonggo_token_okt.pickle', 'rb') as f:
     token = pickle.load(f)
 
 tokened_X = token.texts_to_sequences(X)
@@ -75,7 +75,7 @@ X_pad = pad_sequences(tokened_X, 32)
 # print((X_pad[:5]))
 
 #모델 불러오기
-model = load_model('./models/joonggo_category_classification_model_0.8526752591133118_okt.h5')
+model = load_model('./models/joonggo_category_classification_model_0.8543797135353088_okt.h5')
 preds = model.predict(X_pad)
 
 #예측 max값의 column 리스트 만들기
